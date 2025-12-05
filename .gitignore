@@ -1,0 +1,29 @@
+## Build results
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio & VS Code
+.vscode/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## OS specific
+.DS_Store
+Thumbs.db
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Test results
+TestResults/
+*.trx
+
+## NuGet
+*.nupkg
+*.snupkg
+# nuget.config
