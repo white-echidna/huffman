@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 namespace Huffman.Core.Domain;
 
 /// <summary>
-/// Represents a single symbol in the compression alphabet, wrapping a <see cref="byte"/>.
+///  Represents a single symbol in the compression alphabet, wrapping a <see cref="byte"/>.
 /// </summary>
 /// <param name="Value">The underlying byte value of the symbol.</param>
 public readonly record struct Symbol(byte Value)

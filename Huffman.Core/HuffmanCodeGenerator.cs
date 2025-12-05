@@ -16,11 +16,6 @@ internal static class HuffmanCodeGenerator
     {
         var codes = new SymbolTable<HuffmanCode>();
 
-        if (tree.Root == null)
-        {
-            return codes;
-        }
-
         if (tree.Root is HuffmanTree.LeafNode leaf_node)
         {
             var huffman_code = new HuffmanCodeBuilder()
