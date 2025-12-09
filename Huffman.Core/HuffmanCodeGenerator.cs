@@ -3,12 +3,12 @@ using Huffman.Core.Domain;
 namespace Huffman.Core;
 
 /// <summary>
-///  Responsible for traversing the Huffman Tree and generating the lookup table of codes.
+/// Responsible for traversing the Huffman Tree and generating the lookup table of codes.
 /// </summary>
 internal static class HuffmanCodeGenerator
 {
     /// <summary>
-    ///  Generates a <see cref="SymbolTable{HuffmanCode}"/> from the provided tree topology.
+    /// Generates a <see cref="SymbolTable{HuffmanCode}"/> from the provided tree topology.
     /// </summary>
     /// <param name="tree">The Huffman tree topology.</param>
     /// <returns>A lookup table mapping Symbols to their corresponding HuffmanCodes.</returns>

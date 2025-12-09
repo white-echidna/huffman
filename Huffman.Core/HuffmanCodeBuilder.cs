@@ -5,7 +5,7 @@ using Huffman.Core.Domain;
 namespace Huffman.Core;
 
 /// <summary>
-///  A helper structure to construct Huffman codes incrementally.
+/// A helper structure to construct Huffman codes incrementally.
 /// </summary>
 public readonly struct HuffmanCodeBuilder
 {
@@ -25,7 +25,7 @@ public readonly struct HuffmanCodeBuilder
     }
 
     /// <summary>
-    ///  Appends a '0' bit to the sequence.
+    /// Appends a '0' bit to the sequence.
     /// </summary>
     /// <returns>A new builder instance (functional style).</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -35,7 +35,7 @@ public readonly struct HuffmanCodeBuilder
     }
 
     /// <summary>
-    ///  Appends a '1' bit to the sequence.
+    /// Appends a '1' bit to the sequence.
     /// </summary>
     /// <returns>A new builder instance (functional style).</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -45,7 +45,7 @@ public readonly struct HuffmanCodeBuilder
     }
 
     /// <summary>
-    ///  Finalizes the construction and returns the domain object.
+    /// Finalizes the construction and returns the domain object.
     /// </summary>
     public HuffmanCode Build()
     {

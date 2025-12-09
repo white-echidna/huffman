@@ -6,7 +6,7 @@ using Huffman.Core.Domain;
 namespace Huffman.Core;
 
 /// <summary>
-///  A high-performance bit writer.
+/// A high-performance bit writer.
 /// </summary>
 public class BitWriter(IBufferWriter<byte> output)
 {
@@ -14,7 +14,7 @@ public class BitWriter(IBufferWriter<byte> output)
     private Accumulator _accumulator = new();
 
     /// <summary>
-    ///  Writes a HuffmanCode to the output.
+    /// Writes a HuffmanCode to the output.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Write(HuffmanCode code)
@@ -23,21 +23,24 @@ public class BitWriter(IBufferWriter<byte> output)
     }
 
     /// <summary>
-    ///  Writes raw bits to the output.
+    /// Writes raw bits to the output.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Write(uint bits, int length)
     {
         _accumulator.Push(bits, length);
 
-        if (_accumulator.IsFull32)
+        if (_accumulator.Count > 32)
         {
-            FlushAccumulator();
+            FlushUint32();
         }
     }
 
+    /// <summary>
+    /// Flushes UInt32 to the output.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void FlushAccumulator()
+    private void FlushUint32()
     {
         Span<byte> span = _output.GetSpan(4);
 
@@ -49,25 +52,25 @@ public class BitWriter(IBufferWriter<byte> output)
     }
 
     /// <summary>
-    ///  Flushes any remaining bits to the output byte-by-byte.
-    ///  Should be called when all data has been written.
+    /// Flushes any remaining bits to the output byte-by-byte.
     /// </summary>
     public void Flush()
     {
-        if (_accumulator.HasData)
+        if (_accumulator.Count == 0)
         {
-            const int maxBytesNeeded = 4;
-
-            Span<byte> span = _output.GetSpan(maxBytesNeeded);
-            int written = 0;
-
-            while (_accumulator.HasData)
-            {
-                span[written++] = _accumulator.PopByte();
-            }
-
-            _output.Advance(written);
+            return;
         }
+
+        const int maxBytesNeeded = 8;
+        Span<byte> span = _output.GetSpan(maxBytesNeeded);
+
+        int written = 0;
+        while (_accumulator.Count > 0)
+        {
+            span[written++] = _accumulator.PopByte();
+        }
+
+        _output.Advance(written);
     }
 
     internal struct Accumulator
@@ -75,16 +78,10 @@ public class BitWriter(IBufferWriter<byte> output)
         private ulong _buffer;
         private int _count;
 
-        public readonly bool IsFull32
+        public readonly int Count
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _count >= 32;
-        }
-
-        public readonly bool HasData
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _count > 0;
+            get => _count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -95,20 +92,20 @@ public class BitWriter(IBufferWriter<byte> output)
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte PopByte()
+        {
+            byte result = (byte)_buffer;
+            _buffer >>= 8;
+            _count -= 8;
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint PopUInt32()
         {
             uint result = (uint)_buffer;
             _buffer >>= 32;
             _count -= 32;
-            return result;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public byte PopByte()
-        {
-            byte result = (byte)_buffer;
-            _buffer >>= 8;
-            _count = Math.Max(0, _count - 8);
             return result;
         }
     }

@@ -5,7 +5,7 @@ using Huffman.Core.Domain;
 namespace Huffman.Core;
 
 /// <summary>
-///  Responsible for encoding raw data using a pre-calculated Huffman code table.
+/// Responsible for encoding raw data using a pre-calculated Huffman code table.
 /// </summary>
 public class Encoder(SymbolTable<HuffmanCode> codes, BitWriter writer)
 {
@@ -13,7 +13,7 @@ public class Encoder(SymbolTable<HuffmanCode> codes, BitWriter writer)
     private readonly BitWriter _writer = writer;
 
     /// <summary>
-    ///  Encodes a chunk of raw bytes and writes them to the BitWriter.
+    /// Encodes a chunk of raw bytes and writes them to the BitWriter.
     /// </summary>
     /// <param name="data">A span of raw bytes to compress.</param>
     public void Encode(ReadOnlySpan<byte> data)
