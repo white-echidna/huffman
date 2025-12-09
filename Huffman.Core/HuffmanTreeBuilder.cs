@@ -11,7 +11,7 @@ internal class HuffmanTreeBuilder(SymbolTable<long> frequencies)
         var priority_queue = new PriorityQueue<HuffmanTree.Node, long>();
         priority_queue.EnsureCapacity(Symbol.AlphabetSize);
 
-        foreach (Symbol symbol in SymbolTable<long>.Symbols)
+        foreach (Symbol symbol in new SymbolSequence())
         {
             var frequency = _frequencies[symbol];
             if (frequency > 0)

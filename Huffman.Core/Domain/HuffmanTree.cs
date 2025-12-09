@@ -1,7 +1,7 @@
 namespace Huffman.Core.Domain;
 
 /// <summary>
-///  Represents the topology of a Huffman Tree.
+/// Represents the topology of a Huffman Tree.
 /// </summary>
 internal class HuffmanTree(HuffmanTree.Node root)
 {
